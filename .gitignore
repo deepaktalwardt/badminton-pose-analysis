@@ -102,3 +102,17 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# model
+*.hdf5
+*.hd5
+
+# images
+*.jpg
+*.png
+
+# docs
+*.csv
+
+# saved models
+saved_model/
