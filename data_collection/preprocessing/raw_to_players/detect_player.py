@@ -5,6 +5,7 @@ import cv2
 import sys
 import numpy as np
 import time
+import csv
 
 class DetectorAPI:
     def __init__(self, path_to_ckpt):
@@ -94,9 +95,24 @@ class DetectPlayers:
 
         frame = frame[crop_width_min : crop_width_max, crop_height_min : frame_height]
         return frame
+    
+    def _blacken_frame(self, frame):
+        frame = cv2.resize(frame, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+        frame_height = int(frame.shape[0])
+        frame_width = int(frame.shape[1])
 
-    def _detect_from_frame_and_save(self, frame, file_name):
-        # frame = self._crop_frame(frame)
+        crop_width_min = int(frame_width * self.crop_width_ratio)
+        crop_width_max = int(frame_width - (frame_width * self.crop_width_ratio))
+
+        crop_height_min = int(frame_height * self.crop_height_ratio)
+        
+        mask = np.zeros(frame.shape, np.uint8)
+        mask[crop_width_min : crop_width_max, crop_height_min : frame_height] = frame[crop_width_min : crop_width_max, crop_height_min : frame_height]
+        # frame = frame[crop_width_min : crop_width_max, crop_height_min : frame_height]
+        return mask
+    
+    def _detect_from_frame_and_save_entire(self, frame, file_name, csv_file):
+        frame = self._blacken_frame(frame)
         boxes, scores, classes, num = self.od.processFrame(frame)
         for i in range(len(boxes)):
             if classes[i] == 1 and scores[i] > self.threshold:
@@ -107,10 +123,29 @@ class DetectPlayers:
                 y_min = max(box[1] - self.padding, 0)
                 y_max = min(box[3] + self.padding, frame.shape[1])
 
-                w = x_max - x_min
-                h = y_max - y_min
+                mask = np.zeros(frame.shape, np.uint8)
+                mask[x_min : x_max, y_min : y_max] = frame[x_min : x_max, y_min : y_max]
 
-                area = w * h             
+                record_name = file_name + str(i) + ".png"
+                cv2.imwrite(self.output_folder + '\\' + record_name, mask)
+                to_write = [record_name, x_min, y_min, x_max, y_max]
+                with open(csv_file, 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(to_write)
+
+
+    def _detect_from_frame_and_save_cropped(self, frame, file_name):
+        frame = self._crop_frame(frame)
+        boxes, scores, classes, num = self.od.processFrame(frame)
+        for i in range(len(boxes)):
+            if classes[i] == 1 and scores[i] > self.threshold:
+                box = boxes[i]
+                x_min = max(box[0] - self.padding, 0)
+                x_max = min(box[2] + self.padding, frame.shape[0])
+
+                y_min = max(box[1] - self.padding, 0)
+                y_max = min(box[3] + self.padding, frame.shape[1])
+       
                 mask = frame[x_min : x_max, y_min : y_max]
                 # mask = np.zeros(frame.shape, np.uint8)
                 # mask[x_min : x_max, y_min : y_max] = frame[x_min : x_max, y_min : y_max]
@@ -121,11 +156,25 @@ class DetectPlayers:
                 #     max_human = mask
                 cv2.imwrite(self.output_folder + '\\' + file_name + str(i) + ".png", mask)
 
-    def detect_players(self):
+    def detect_players(self, cropped_frame=False):
         frame_list = glob.glob(self.input_folder + '/*.png')
         print('Frames found: ' + str(len(frame_list)))
 
-        for frame_name in frame_list:
-            file_name = os.path.basename(frame_name)
-            frame = cv2.imread(frame_name)
-            self._detect_from_frame_and_save(frame, file_name)
+        if cropped_frame:
+            for frame_name in frame_list:
+                file_name = os.path.basename(frame_name)
+                frame = cv2.imread(frame_name)
+                self._detect_from_frame_and_save_cropped(frame, file_name)
+        else :
+            csv_file = self.output_folder + '\\' + 'detection_info.csv'
+            if os.path.isfile(csv_file):
+                os.remove(csv_file)
+                try:
+                    os.makedirs(csv_file)
+                except:
+                    print("ERROR: Couldn't create CSV file")
+                    return
+            for frame_name in frame_list:
+                file_name = os.path.basename(frame_name)
+                frame = cv2.imread(frame_name)
+                self._detect_from_frame_and_save_entire(frame, file_name, csv_file)
