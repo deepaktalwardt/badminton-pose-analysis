@@ -112,7 +112,7 @@ class DetectPlayers:
         return mask
     
     def _detect_from_frame_and_save_entire(self, frame, file_name, csv_file):
-        frame = self._blacken_frame(frame)
+        # frame = self._blacken_frame(frame)
         boxes, scores, classes, num = self.od.processFrame(frame)
         for i in range(len(boxes)):
             if classes[i] == 1 and scores[i] > self.threshold:

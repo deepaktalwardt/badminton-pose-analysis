@@ -2,10 +2,10 @@ from detect_player import DetectPlayers
 import os
 
 curr_path = os.getcwd()
-input_folder = os.path.join(curr_path, 'input_test')
-output_folder = os.path.join(curr_path, 'output_test')
-# input_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\LCW4_Japan_2017\\raw_lcw4"
-# output_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\LCW4_Japan_2017\\detected_lcw4"
+# input_folder = os.path.join(curr_path, 'input_test')
+# output_folder = os.path.join(curr_path, 'output_test')
+input_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\raw_frames\\TTY\\raw_tty5\\raw_tty5"
+output_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\raw_frames\\TTY\\raw_tty5\\detected_tty5"
 od_model_path = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\tf_object_detection_model\\frozen_inference_graph.pb"
 
 print("Output Folder: " + output_folder)
