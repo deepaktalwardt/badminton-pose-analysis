@@ -63,11 +63,11 @@ class RenameUnlabelledFrames():
 
 
 if __name__ == "__main__":
-    input_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\raw_frames\\LCW\\LCW4_Japan_2017\\detected_lcw4"
-    output_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\unlabelled_full_frame_player_renamed\\LCW"
+    input_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\testvideo\\test1frames\\test1_players"
+    output_folder = "C:\\Users\\Deepak Talwar\\Dropbox (Personal)\\SJSU\\Semesters\\Fall2019\\CalHacks\\unlabelled_test_player_renamed"
     input_csv_file = input_folder + "\\detection_info.csv"
-    tournament_name = "Japan2017"
-    player_name = "LCW"
+    tournament_name = "Test1"
+    player_name = "TEST"
     frame_type = "unlabelled"
     start_index = 0
     ruf = RenameUnlabelledFrames(input_folder, output_folder, input_csv_file, tournament_name, player_name, frame_type)

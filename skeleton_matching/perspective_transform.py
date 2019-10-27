@@ -44,10 +44,19 @@ class PerspectiveTransform:
             if tournament_name != "Malaysia2017":
                 H = self.H_Japan2017_to_Malaysia2017
                 warped = cv2.warpPerspective(im_orig, H, (1280, 720))
+                if show:
+                    cv2.imshow("Source", im_orig)
+                    cv2.imshow("Warped", warped)
+                    cv2.waitKey(0)
+                return warped
+        elif player_name == "TEST":
+            H = self.H_Test1_to_Malaysia2017
+            warped = cv2.warpPerspective(im_orig, H, (1280, 720))
+            if show:
                 cv2.imshow("Source", im_orig)
                 cv2.imshow("Warped", warped)
                 cv2.waitKey(0)
-                return warped
+            return warped
             else:
                 return im_orig
         elif player_name == "TTY":
