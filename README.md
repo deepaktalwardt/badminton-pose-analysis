@@ -9,6 +9,11 @@ As you can imagine, no public datasets of badminton shots exist, which is why we
 4. Manually scrub through these videos and extract frames when these shots occur.
 5. Process the frames and do the "learning."
 
+![Smash](/images/smash.png)
+![Net Drop](/images/drop.png)
+![Defense](/images/defense.png)
+![Backhand](/images/backhand.png)
+
 ## Data Preprocessing
 Our aim is to extract pose features from the shots played by these professional players. To be able to do this effectively, we would first need to extract the professional players from these frames. This is done using the following process.
 1. Blacken out areas not of interest.
@@ -18,6 +23,9 @@ Our aim is to extract pose features from the shots played by these professional 
 
 ## Shot Classification -> Net drop, Smash, Backhand clear and defense
 Using ~1400 frames manually collected from over 15 YouTube videos, we built and trained a multi-class classifier that detects what kind of shot the player in the input frame is playing. Our trained model achieved over 93% accuracy in classification. This classification is then passed on to the next stage of the pipeline, which compares the quality of shots played by the test player to the shots played by LCW and TTY. 
+
+![Training Accuracy](/images/accuracy.png)
+![Training Loss](/images/loss.png)
 
 ## Learned models of shots played by professional Badminton Players
 To be able to compare forms of amateur players with professional players, we created learned models of each shot for these two players. For example, we learned the configuration of their skeleton as they play particular types of shots. Consistency is a major factor for success in this sport, and players can keep track of their consistency using this app.
