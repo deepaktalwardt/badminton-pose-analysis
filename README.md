@@ -30,6 +30,9 @@ Using ~1400 frames manually collected from over 15 YouTube videos, we built and 
 ## Learned models of shots played by professional Badminton Players
 To be able to compare forms of amateur players with professional players, we created learned models of each shot for these two players. For example, we learned the configuration of their skeleton as they play particular types of shots. Consistency is a major factor for success in this sport, and players can keep track of their consistency using this app.
 
+![Pose detection](/images/smashskeleton.png)
+![Pose detection](/images/defskeleton.png)
+
 ### Features to Compare
 1. Net-drop - Lunge distance
 2. Smash - Configuration of upper arm, elbow and shoulder
@@ -45,6 +48,7 @@ Since all tournaments have different camera setups, we cannot simply overlay the
 ### Bird-eye view
 To calculate metrics such as lunge distance and reachability, we need a transformation from 2D camera space to 3D space so that we can measure the distances accurately. To do this, we use the fact that we know the court's dimensions very accurately, and that the entire court is visible in the frame at all times. We then perform a perspective transform to move the viewer's location perpendicularly above the court. This allows us to map the court's dimensions to any euclidean distance on the court. And thus, we can find the lunge distances and reachability of any player.
 
+![Sample Evaluation](/images/radar.png)
 
 This work was developed during CalHacks 6.0 (2019) at UC Berkeley by
 * Deepak Talwar

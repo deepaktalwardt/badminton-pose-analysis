@@ -5,7 +5,7 @@ import os
 def config_reader():
     print(os.getcwd())
     path = os.path.join(os.getcwd(), 'config')
-    config = ConfigObj("/home/jupyter/badminton analysis/badminton-pose-analysis/config")
+    config = ConfigObj(path)
     print(config)
     param = config['param']
     model_id = param['modelID']

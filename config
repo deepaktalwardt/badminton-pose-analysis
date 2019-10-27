@@ -1,4 +1,4 @@
-[param]
+param
 
 # CPU mode or GPU mode
 use_gpu = 1
