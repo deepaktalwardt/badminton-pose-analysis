@@ -10,7 +10,20 @@ As you can imagine, no public datasets of badminton shots exist, which is why we
 5. Process the frames and do the "learning."
 
 ## Data Preprocessing
-Our aim is to extract pose features from the shots played by these professional players. To be able to do this effectively, we would first need to extract the professional players from these 
+Our aim is to extract pose features from the shots played by these professional players. To be able to do this effectively, we would first need to extract the professional players from these frames. This is done using the following process.
+1. Blacken out areas not of interest.
+2. Use Google TensorFlow's Object Detection API to detect humans.
+3. Pad area around the player of interest and extract the frame.
+4. In addition, we store the size and location of the located players which is used later.
+
+## Shot Classification -> Net drop, Smash, Backhand clear and defense
+Using ~1400 frames manually collected from over 15 YouTube videos, we built and trained a multi-class classifier that detects what kind of shot the player in the input frame is playing. Our trained model achieved over 93% accuracy in classification. This classification is then passed on to the next stage of the pipeline, which compares the quality of shots played by the test player to the shots played by LCW and TTY. 
+
+## Pose detection 
+
+## Feature Comparison
+
+## Evaluation
 
 
 
