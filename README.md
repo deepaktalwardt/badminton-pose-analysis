@@ -19,13 +19,23 @@ Our aim is to extract pose features from the shots played by these professional 
 ## Shot Classification -> Net drop, Smash, Backhand clear and defense
 Using ~1400 frames manually collected from over 15 YouTube videos, we built and trained a multi-class classifier that detects what kind of shot the player in the input frame is playing. Our trained model achieved over 93% accuracy in classification. This classification is then passed on to the next stage of the pipeline, which compares the quality of shots played by the test player to the shots played by LCW and TTY. 
 
-## Pose detection 
+## Learned models of shots played by professional Badminton Players
+To be able to compare forms of amateur players with professional players, we created learned models of each shot for these two players. For example, we learned the configuration of their skeleton as they play particular types of shots. Consistency is a major factor for success in this sport, and players can keep track of their consistency using this app.
 
-## Feature Comparison
+### Features to Compare
+1. Net-drop - Lunge distance
+2. Smash - Configuration of upper arm, elbow and shoulder
+3. Defense - Reachability around the court
+4. Backhand - Configuration of lower arm and upper arm
 
 ## Evaluation
+With the features to compare defined, we apply the same pre-processing and pose detection steps on the input frames, and determine which of the features can be compared.
 
+### Perspective Transform using Homography
+Since all tournaments have different camera setups, we cannot simply overlay the pose of players and learn the model. We need to first perform perspective transform to virtually bring the camera scenes together. This is done using the court's boundaries as reference points.
 
+### Bird-eye view
+To calculate metrics such as lunge distance and reachability, we need a transformation from 2D camera space to 3D space so that we can measure the distances accurately. To do this, we use the fact that we know the court's dimensions very accurately, and that the entire court is visible in the frame at all times. We then perform a perspective transform to move the viewer's location perpendicularly above the court. This allows us to map the court's dimensions to any euclidean distance on the court. And thus, we can find the lunge distances and reachability of any player.
 
 
 This work was developed during CalHacks 6.0 (2019) at UC Berkeley by
