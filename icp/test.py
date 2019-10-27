@@ -75,9 +75,10 @@ if __name__ == "__main__":
     with open('data2.txt', "r") as read_file:
         data = json.load(read_file)
     
-    POINTS = []
+    POINTS = {}
 
     for key in data:
+        print(key)
         large_list = data[key]
         
         get_real_person = large_list[0]
@@ -91,9 +92,13 @@ if __name__ == "__main__":
         for k, v in get_real_person.items():
             point.append(v)
 
-        POINTS.append(point)
+        POINTS[key] = point
 
-    T,d,i = icp.icp(np.asarray(POINTS[0]), np.asarray(POINTS[1]))
-    print(T)
-    print(d)
-    print(i)
+    print(POINTS['image1'])
+    
+
+    test_icp()
+    #T,d,i = icp.icp(np.asarray(POINTS[0]), np.asarray(POINTS[1]))
+    #print(T)
+    #print(d)
+    #print(i)
