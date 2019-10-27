@@ -56,9 +56,9 @@ class PerspectiveTransform:
                 cv2.imshow("Source", im_orig)
                 cv2.imshow("Warped", warped)
                 cv2.waitKey(0)
+                
             return warped
-            else:
-                return im_orig
+                #return im_orig
         elif player_name == "TTY":
             H = None
             if tournament_name == "HongKong2018":
@@ -187,6 +187,43 @@ class PerspectiveTransform:
                 cv2.waitKey(0)
             
             return dist, warped
+
+    def get_lunge_distance2(self, file_path, skeleton_info_dict, show=False):
+        file_name = os.path.basename(file_path)
+        # fn = file_name.split("_")
+        # fn = fn[0] + "_" + fn[1] + "_" + fn[2] + "_" + fn[3] + ".png"
+        M, warped = self.bird_eye_view(file_path, show=False)
+        
+        #file_name = os.path.basename(file_path)
+        file_name = file_name[:-4]
+        print(file_name)
+        if file_name in skeleton_info_dict.keys():
+            skeleton_info = skeleton_info_dict[file_name]
+            dict_to_search = skeleton_info[0]
+            if len(skeleton_info) > 1:
+                for si in skeleton_info:
+                    if len(si) > len(dict_to_search):
+                        dict_to_search = si
+            if "Rank" in dict_to_search.keys() and "Lank" in dict_to_search.keys():
+                r_ank = dict_to_search["Rank"]
+                l_ank = dict_to_search["Lank"]
+                r_ank = self.transform_coordinates(r_ank, M)
+                l_ank = self.transform_coordinates(l_ank, M)
+                dist = self.calculate_distance(r_ank, l_ank)
+
+                warped = cv2.circle(warped, l_ank, 20, (0, 0, 255), 3)
+                warped = cv2.circle(warped, r_ank, 20, (0, 0, 255), 3)
+                warped = cv2.line(warped, l_ank, r_ank, (0,255,255), 5)
+                warped = cv2.putText(warped, str(round(dist, 3)) + ' m', (r_ank[0] + 20, r_ank[1] + 20), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 2)
+
+                if show:
+                    cv2.imshow("Warped", warped)
+                    cv2.waitKey(0)
+                
+                return dist, warped
+        
+        print("File path not found in skeleton info dictionary")
+        return
 
 
 if __name__ == '__main__':

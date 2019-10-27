@@ -61,7 +61,7 @@ class Pose_predictor:
 
             candidate[i, 0] = candidate[i, 0] + x_min
             candidate[i, 1] = candidate[i, 1] + y_min
-        print("final all_peaks", all_peaks)
+        #print("final all_peaks", all_peaks)
         canvas = draw(self.input_image, all_peaks, subset, candidate)
         cv2.imwrite(output_path+'/'+file_name+'.png', canvas)
         cv2.destroyAllWindows()
