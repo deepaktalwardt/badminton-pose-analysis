@@ -111,8 +111,8 @@ venv.bak/
 *.jpg
 *.png
 
-# docs
-*.csv
-
 # saved models
 saved_model/
+
+# random
+*.ini
